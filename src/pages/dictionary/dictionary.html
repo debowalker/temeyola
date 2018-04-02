@@ -8,39 +8,39 @@
 
 
 <ion-content>
-  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
-  <ion-card>
+  <ion-searchbar (ionInput)="searchWordDictionary($event.target.value)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-card *ngFor="let a0 of searched;let ai=index">
   <ion-item>
-    <h2 text-lg-center>'Dale 'dale</h2>
+    <h2 text-lg-center>{{a0.meaning}}</h2><sup class="text-light">({{a0.word}})</sup>
   </ion-item>
-  <ion-row>
-    <ion-col col-3>
-      <button ion-button icon-left clear small>
-        <ion-icon name="thumbs-up"></ion-icon>
-        <div>12 Likes</div>
-      </button>
-    </ion-col>
-    <ion-col col-4>
-      <button ion-button icon-left clear small>
-        <ion-icon name="text"></ion-icon>
-        <div>4 Comments</div>
-      </button>
-    </ion-col>
-    <ion-col col-3>
-      <button ion-button icon-left clear small>
-        <ion-icon name="create"></ion-icon>
-        <div>4 people</div>
-      </button>
-    </ion-col>
-  </ion-row>
   <ion-card-content>
-    <ion-item-group>
-      <ion-item-divider color="light">Ex.</ion-item-divider>
-      <ion-item>Mo ovu 'dale dale (Let it remain absolute)</ion-item>
-      <ion-item>Mo ovu 'dale dale (Let it remain absolute)</ion-item>
-    </ion-item-group>
+      <p>
+      {{a0.example}}
+      {{a0.exampleMeaning}}
+    </p>
+    <ion-row>
+      <ion-col col-4>
+        <button ion-button icon-left clear small>
+          <ion-icon name="thumbs-up"></ion-icon>
+          <div>0</div>
+        </button>
+      </ion-col>
+      <ion-col col-4>
+        <button ion-button icon-left clear small>
+          <ion-icon name="text"></ion-icon>
+          <div>0 </div>
+        </button>
+      </ion-col>
+      <ion-col col-4>
+        <button ion-button icon-left clear small>
+          <ion-icon name="create"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
   </ion-card-content>
 
 </ion-card>
-
+<ng-container *ngIf="searched.length==0">
+   <sup ion-text color="primary" class="text-big">Please type the english word in the search input...</sup>
+</ng-container>
 </ion-content>

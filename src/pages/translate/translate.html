@@ -17,6 +17,9 @@
   <ion-grid>
     <ion-row>
       <ion-col col-8>
+        <ng-container *ngIf="englishWord.length==0">
+          <ion-spinner color="primary"></ion-spinner> <sup ion-text color="primary" class="text-big">Just a moment...</sup>
+        </ng-container>
         <ng-container *ngFor="let a of englishWord;let ai=index">
          <ion-list *ngIf="ai==rand">
            <ion-item href="#">
@@ -32,6 +35,12 @@
          </ng-container>
       </ion-col>
     </ion-row>
+    <ng-container *ngIf="translationState.length==1">
+      <ion-spinner color="primary"></ion-spinner> <p ion-text color="primary" class="text-big">saving...</p>
+    </ng-container>
+    <ng-container *ngIf="translationState.length==2">
+       <p ion-text color="primary" class="text-big">We temeyolian really appreciate what you are doing...</p>
+    </ng-container>
     <ion-row>
       <ion-col col-12>
           <ion-item>

@@ -34,23 +34,18 @@ export class TranslatePage implements OnInit {
     addTransaltionStatusClassObject
     submitted
     document:string
+    translationState:number[]
 
   constructor(public db: AngularFireLiteDatabase,
               public auth: AngularFireLiteAuth,
               public firestore: AngularFireLiteFirestore,public navCtrl: NavController, public modalCtrl: ModalController) {
     this.title="Translate"
+    this.translationState=[]
       }
    ngOnInit() {
 
-        // Realtime Database
-        this.db.read('temeyola').subscribe((data) => {
-            this.databaseData = data;
-        });
 
-
-        // Realtime Database list retrieval
-        this.databaseList = this.db.read('temeyola/0');
-        this.firestore.query('englishWords').limit(5).on().subscribe((data) => {
+        this.firestore.query('englishWords').on().subscribe((data) => {
             this.firestoreQuery = data;
             for (let i of this.firestoreQuery) {
               let englishWord=new EnglishWordToTranslate(i.word,
@@ -58,7 +53,7 @@ export class TranslatePage implements OnInit {
                                                         i.description)
               this.englishWord.push(englishWord)
             }
-            this.rand=Math.floor(Math.random() * (4 - 0 + 1)) + 0
+            this.rand=Math.floor(Math.random() * (this.englishWord.length-1 - 0 + 1)) + 0
             console.log(this.englishWord[this.rand])
         });
 
@@ -71,13 +66,9 @@ export class TranslatePage implements OnInit {
 
 
     }
-
-    // Login Button Clicked
-    login() {
-        this.auth.signin('debojoel6@gmail.com', 'debojoel');
-    }
     refresh(){
-    this.rand=Math.floor(Math.random() * (4 - 0 + 1)) + 0
+      this.translationState=[]
+    this.rand=Math.floor(Math.random() * (this.englishWord.length-1 - 0 + 1)) + 0
   }
   generateDocumentId(){
     while (true) {
@@ -97,11 +88,11 @@ export class TranslatePage implements OnInit {
 
   }
   saveTranslation(){
+    this.translationState=[1]
     this.generateDocumentId()
     let toSubmit=new TranslatedEnglishWordProvider(this.translationForm.word,this.translationForm.meaning,
                                       this.translationForm.example,this.translationForm.exampleMeaning,
                                     this.englishWord,this.rand)
-    console.log(toSubmit.toSubmit)
     this.firestore.write("Translation/"+this.document,toSubmit.toSubmit).subscribe(()=>{
 
                                           })
@@ -111,18 +102,12 @@ export class TranslatePage implements OnInit {
                       example: '',
                       exampleMeaning: ''
                     };
+    this.translationState=[1,2]
+    this.rand=Math.floor(Math.random() * (this.englishWord.length-1 - 0 + 1)) + 0
     return false
   }
 
-  /**
-   * The view loaded, let's query our items for the list
-   */
   ionViewDidLoad() {
   }
 
-
-
-  /**
-   * Navigate to the detail page for this item.
-   */
 }
