@@ -1,0 +1,62 @@
+<ion-header>
+
+  <ion-navbar color="dark">
+    <ion-title>{{ title }}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button color="light" icon-only (click)="refresh()">
+         <ion-icon name="refresh-circle"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+<form (submit)="saveTranslation()">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-8>
+        <ng-container *ngFor="let a of englishWord;let ai=index">
+         <ion-list *ngIf="ai==rand">
+           <ion-item href="#">
+            {{a.word}}
+           </ion-item>
+           <ion-item href="#">
+             Pos: {{a.pos}}
+           </ion-item>
+           <ion-item>
+           Desc: {{a.description}}
+           </ion-item>
+         </ion-list>
+         </ng-container>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-12>
+          <ion-item>
+            <ion-label floating>Enter translation here</ion-label>
+            <ion-input type="text" name="meaning" [(ngModel)]="translationForm.meaning"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Enter Example here</ion-label>
+            <ion-input type="text" name="example" [(ngModel)]="translationForm.example"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label floating>Enter Example meaning in English here</ion-label>
+            <ion-input type="text" name="exampleMeaning" [(ngModel)]="translationForm.exampleMeaning"></ion-input>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-6>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button color="dark">
+           SAVE TRANSLATION
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</form>
+</ion-content>

@@ -1,0 +1,46 @@
+<ion-header>
+
+  <ion-navbar color="dark">
+    <ion-title>TeMeYoLa Dictionary</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <ion-searchbar (ionInput)="getItems($event)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+  <ion-card>
+  <ion-item>
+    <h2 text-lg-center>'Dale 'dale</h2>
+  </ion-item>
+  <ion-row>
+    <ion-col col-3>
+      <button ion-button icon-left clear small>
+        <ion-icon name="thumbs-up"></ion-icon>
+        <div>12 Likes</div>
+      </button>
+    </ion-col>
+    <ion-col col-4>
+      <button ion-button icon-left clear small>
+        <ion-icon name="text"></ion-icon>
+        <div>4 Comments</div>
+      </button>
+    </ion-col>
+    <ion-col col-3>
+      <button ion-button icon-left clear small>
+        <ion-icon name="create"></ion-icon>
+        <div>4 people</div>
+      </button>
+    </ion-col>
+  </ion-row>
+  <ion-card-content>
+    <ion-item-group>
+      <ion-item-divider color="light">Ex.</ion-item-divider>
+      <ion-item>Mo ovu 'dale dale (Let it remain absolute)</ion-item>
+      <ion-item>Mo ovu 'dale dale (Let it remain absolute)</ion-item>
+    </ion-item-group>
+  </ion-card-content>
+
+</ion-card>
+
+</ion-content>

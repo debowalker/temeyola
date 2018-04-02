@@ -1,0 +1,8 @@
+{
+  "name": "temeyola",
+  "app_id": "b02f8fcd",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
