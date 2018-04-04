@@ -16,6 +16,7 @@ import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 
 import {AngularFireLite} from 'angularfire-lite';
+import { UsersProvider } from '../providers/users/users';
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -61,7 +62,8 @@ export function createTranslateLoader(http: HttpClient) {
     AngularFireLite,
     // { provide: EnglishWordToTranslate, useFactory: provideSettings, deps: [Storage] },
     // Keep this to enable Ionic's runtime error handling during development
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    UsersProvider
   ]
 })
 export class AppModule { }

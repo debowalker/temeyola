@@ -15,9 +15,8 @@ import { IonicPage, NavController } from 'ionic-angular';
 export class WelcomePage {
 	welcomeMessage:string
 
-  constructor(public navCtrl: NavController) { 
+  constructor(public navCtrl: NavController) {
   	this.welcomeMessage="You either sign up or Login in with an existing account"
-  	console.log(this.welcomeMessage)
   }
 
   login() {
@@ -25,6 +24,7 @@ export class WelcomePage {
   }
 
   signup() {
+    console.log("inside signup")
     this.navCtrl.push('SignupPage');
   }
 }

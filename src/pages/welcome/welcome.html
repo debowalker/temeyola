@@ -2,15 +2,15 @@
   <div class="splash-bg"></div>
   <div class="splash-info">
     <div class="splash-intro">
-      
+
     </div>
   </div>
-  <div padding>
-    <button ion-button block (click)="signup()" color="dark">
-      Sign Up
+  <div padding class="p-5">
+    <button ion-button block (click)="login()" color="dark" class="login">
+      Log in
     </button>
-    <button ion-button block (click)="login()" class="login" color="dark">
-      Sign In
+    <button ion-button block (click)="signup()" class="signup" color="dark">
+      Register
     </button>
     <p [innerHTML]="welcomeMessage"></p>
   </div>

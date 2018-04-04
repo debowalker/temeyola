@@ -1,42 +1,100 @@
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>{{ 'SIGNUP_TITLE' | translate }}</ion-title>
+  <ion-navbar color="dark">
+    <ion-title>SIGNUP</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+  <ng-container *ngIf="successMessage.length>0">
+    <br/>
+     <p ion-text color="success" class="text-big">
+       Your account has been successfully created!!! You may proceed to login page.
+     </p>
+     <button ion-button color="dark" block (click)="login()">Login</button>
+  </ng-container>
+  <ng-container *ngIf="emptyFullNameError.length>0">
+    <br/>
+     <sup ion-text color="danger" class="text-big">Please enter your name</sup>
+  </ng-container>
+  <ng-container *ngIf="emptyUserNameError.length>0">
+    <br/>
+     <sup ion-text color="danger" class="text-big">Please enter your unique user name</sup>
+  </ng-container>
+  <ng-container *ngIf="emptyEmailError.length>0">
+    <br/>
+     <sup ion-text color="danger" class="text-big">Please enter your email</sup>
+  </ng-container>
+  <ng-container *ngIf="emptyPasswordError.length>0">
+    <br/>
+     <sup ion-text color="danger" class="text-big">Please enter your password</sup>
+  </ng-container>
+  <ng-container *ngIf="unMatchPasswordError.length>0">
+    <br/>
+     <sup ion-text color="danger" class="text-big">Password don't match</sup>
+  </ng-container>
   <form (submit)="doSignup()">
     <ion-list>
-
+      <ion-list-header>
+        Bio
+      </ion-list-header>
       <ion-item>
-        <ion-label fixed>{{ 'NAME' | translate }}</ion-label>
-        <ion-input type="text" [(ngModel)]="account.name" name="name"></ion-input>
+        <ion-label floating>Full name</ion-label>
+        <ion-input type="text" [(ngModel)]="accountDetail.fullName" name="fullName"></ion-input>
       </ion-item>
-
       <ion-item>
-        <ion-label fixed>{{ 'EMAIL' | translate }}</ion-label>
-        <ion-input type="email" [(ngModel)]="account.email" name="email"></ion-input>
+        <ion-label floating>Date of Birth</ion-label>
+        <ion-input type="date" [(ngModel)]="accountDetail.dateOfBirth" name="dateOfBirth"></ion-input>
       </ion-item>
-
-      <!--
-      Want to add a Username? Here you go:
+      <ion-item>
+        <ion-label floating>Gender</ion-label>
+        <ion-select [(ngModel)]="accountDetail.gender" name="gender">
+          <ion-option value="Female">Female</ion-option>
+          <ion-option value="Male">Male</ion-option>
+          <ion-option value="Other">I rather not say it</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Native/Indeginous language</ion-label>
+        <ion-select [(ngModel)]="accountDetail.nativeLanguage" name="nativeLanguage" >
+          <ion-option value="m">Langi</ion-option>
+          <ion-option value="m">Luganda</ion-option>
+          <ion-option value="f">Lugbarati</ion-option>
+          <ion-option value="m">Madi</ion-option>
+          <ion-option value="m">Other</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-list-header>
+        Account
+      </ion-list-header>
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input type="email" [(ngModel)]="accountDetail.email" name="email"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Phone</ion-label>
+        <ion-input type="tel" [(ngModel)]="accountDetail.phone" name="phone"></ion-input>
+      </ion-item>
 
       <ion-item>
         <ion-label floating>Username</ion-label>
-        <ion-input type="text" [(ngModel)]="account.username" name="username"></ion-input>
+        <ion-input type="text" [(ngModel)]="accountDetail.userName" name="userName"></ion-input>
       </ion-item>
-      -->
+
 
       <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
-        <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
+        <ion-label floating>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="accountDetail.password" name="password"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Confirm password</ion-label>
+        <ion-input type="password" [(ngModel)]="accountDetail.confirmPassword" name="confirmassword"></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="primary" block>{{ 'SIGNUP_BUTTON' | translate }}</button>
+        <button ion-button color="dark" block>SIGN UP</button>
       </div>
 
     </ion-list>
