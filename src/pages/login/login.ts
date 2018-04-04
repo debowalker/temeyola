@@ -4,7 +4,7 @@ import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import {AngularFireLiteAuth, AngularFireLiteDatabase, AngularFireLiteFirestore} from 'angularfire-lite';
 import {Md5} from 'ts-md5/dist/md5';
 
-import { User } from '../../providers/providers';
+// import { User } from '../../providers/providers';
 // import {UsersProvider} from '../../providers/providers'
 // import { MainPage } from '../pages';
 
@@ -32,7 +32,7 @@ export class LoginPage implements OnInit {
   authState;
 
   // Our translated text strings
-  private loginErrorString: string;
+  // private loginErrorString: string;
 
   constructor(public db: AngularFireLiteDatabase,
               public auth: AngularFireLiteAuth,

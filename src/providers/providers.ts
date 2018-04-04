@@ -3,7 +3,7 @@ import { Items } from '../mocks/providers/items';
 import { WordNetEnglishWordProvider } from './word-net-english-word/word-net-english-word';
 import {TranslatedEnglishWordProvider} from './translated-english-word/translated-english-word'
 import { User } from './user/user';
-import { UsersProvider } from './users/users';
+// import { UsersProvider } from './users/users';
 
 export {
     Api,
@@ -11,5 +11,5 @@ export {
     WordNetEnglishWordProvider,
     TranslatedEnglishWordProvider,
     User,
-    UsersProvider
+    // UsersProvider
 };

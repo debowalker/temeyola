@@ -5,10 +5,10 @@ import {AngularFireLiteAuth, AngularFireLiteDatabase, AngularFireLiteFirestore} 
 import {Md5} from 'ts-md5/dist/md5';
 
 // import { User } from '../../providers/providers';
-import { MainPage } from '../pages';
+// import { MainPage } from '../pages';
 
 //providers
-import {UsersProvider} from '../../providers/providers'
+// import {UsersProvider} from '../../providers/providers'
 
 @IonicPage()
 @Component({
@@ -35,8 +35,8 @@ export class SignupPage {
   firestoreQuery;
 
   authState;
-  duplicateUserName:UsersProvider[]=[]
-  duplicateEmail:UsersProvider[]=[]
+  duplicateUserName=[]
+  duplicateEmail=[]
 
   accountDetail: { fullName: string, email: string, password: string,confirmPassword:string, userName:string,
              userType:string,phone:string,nativeLanguage:string,gender:string,
@@ -81,12 +81,15 @@ export class SignupPage {
                   });
               for (let a0 of retrievedUsers){
                 if (a0.userName==this.accountDetail.userName){
-                  let atomicUser=new UsersProvider(a0.fullName,a0.dateOfBirth,a0.gender,a0.nativeLanguage,
-                                                    a0.phone,a0.email,a0.userName,a0.password,a0.userType)
+                  let atomicUser={fullName:a0.fullName,dateOfBirth:a0.dateOfBirth,
+                              gender:a0.gender,nativeLanguage:a0.nativeLanguage,
+                              phone:a0.phone,email:a0.email,
+                              userName:a0.userName,password:a0.password,userType:a0.userType
+                            }
                   this.duplicateUserName.push(atomicUser)
                 }else if (a0.email==this.accountDetail.email){
-                  let atomicUser=new UsersProvider(a0.fullName,a0.dateOfBirth,a0.gender,a0.nativeLanguage,
-                                                    a0.phone,a0.email,a0.userName,a0.password,a0.userType)
+                  let atomicUser={fullName:a0.fullName,dateOfBirth:a0.dateOfBirth,gender:a0.gender,nativeLanguage:a0.nativeLanguage,
+                                  phone:a0.phone,email:a0.email,userName:a0.userName,password:a0.password,userType:a0.userType}
                   this.duplicateEmail.push(atomicUser)
                 }
 
