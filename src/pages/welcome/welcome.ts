@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+import { MainPage } from '../pages';
+import { ToastController } from 'ionic-angular';
 
-/**
- * The Welcome Page is a splash page that quickly describes the app,
- * and then directs the user to create an account or log in.
- * If you'd like to immediately put the user onto a login/signup page,
- * we recommend not using the Welcome page.
-*/
 @IonicPage()
 @Component({
   selector: 'page-welcome',
@@ -14,17 +11,42 @@ import { IonicPage, NavController } from 'ionic-angular';
 })
 export class WelcomePage {
 	welcomeMessage:string
+  public loggedUserState:boolean
 
-  constructor(public navCtrl: NavController) {
-  	this.welcomeMessage="You either sign up or Login in with an existing account"
+  constructor(public navCtrl: NavController,private storage: Storage,
+              public toastCtrl: ToastController) {
   }
 
   login() {
-    this.navCtrl.push('LoginPage');
+    this.storage.get('userName').then((val) => {
+      console.log("username")
+      console.log(val)
+        if (val==null){
+          this.navCtrl.push('LoginPage');
+        }else{
+          let toast = this.toastCtrl.create({
+            message: 'You already logged in',
+            duration: 3000
+          });
+          toast.present();
+
+          this.navCtrl.push("TranslationLanguageMenuPage")
+        }
+        // console.log(loggedUserState)
+      });
   }
 
   signup() {
-    console.log("inside signup")
-    this.navCtrl.push('SignupPage');
+    let loggedUserState=false
+    this.storage.get('userName').then((val) => {
+        if (val!=null){
+          loggedUserState=true
+        }
+      });
+    if (loggedUserState==false){
+      this.navCtrl.push('SignupPage');
+    }else{
+      this.navCtrl.push(MainPage)
+    }
   }
 }

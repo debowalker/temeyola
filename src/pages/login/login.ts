@@ -3,10 +3,11 @@ import { TranslateService } from '@ngx-translate/core';
 import { IonicPage, NavController, ToastController } from 'ionic-angular';
 import {AngularFireLiteAuth, AngularFireLiteDatabase, AngularFireLiteFirestore} from 'angularfire-lite';
 import {Md5} from 'ts-md5/dist/md5';
+import { Storage } from '@ionic/storage';
 
 // import { User } from '../../providers/providers';
 // import {UsersProvider} from '../../providers/providers'
-// import { MainPage } from '../pages';
+import { MainPage } from '../pages';
 
 @IonicPage()
 @Component({
@@ -39,15 +40,14 @@ export class LoginPage implements OnInit {
               public firestore: AngularFireLiteFirestore,
               public navCtrl: NavController,
               public toastCtrl: ToastController,
-              public translateService: TranslateService) {
+              public translateService: TranslateService,
+              private storage: Storage) {
 
-    this.translateService.get('LOGIN_ERROR').subscribe((value) => {
-      this.loginErrorString = value;
-    })
+    // this.translateService.get('LOGIN_ERROR').subscribe((value) => {
+    //   this.loginErrorString = value;
+    // })
   }
   ngOnInit() {
-
-
        this.firestore.query('Users').on().subscribe((data) => {
            this.firestoreQuery = data;
 
@@ -59,27 +59,34 @@ export class LoginPage implements OnInit {
        this.auth.isAuthenticated().subscribe((isAuth) => {
            this.authState = isAuth;
        });
-
-
-   }
+     }
 
   doLogin() {
-    console.log("logging")
-    this.invalidCredentialError=[]
-    let hashed=Md5.hashStr(this.account.password)
-    let retrievedUsers=this.firestoreQuery
-    for (let a0 of retrievedUsers){
-      console.log(`${a0.password} vs ${hashed}`)
-      if (a0.userName==this.account.userName && a0.password==hashed){
-        this.detectedUser.push(a0.userName)
+    let loggedUserState=false
+    this.storage.get('userName').then((val) => {
+        if (val!=null || val!=undefined){
+          loggedUserState=true
+        }
+      });
+    if (loggedUserState==false){
+      this.invalidCredentialError=[]
+      let hashed=Md5.hashStr(this.account.password)
+      let retrievedUsers=this.firestoreQuery
+      for (let a0 of retrievedUsers){
+        if (a0.userName==this.account.userName && a0.password==hashed){
+          this.detectedUser.push(a0.userName)
+        }
       }
-    }
-    console.log(this.detectedUser)
-    if (this.detectedUser.length==1){
-      console.log("loged")
-      this.navCtrl.push('TranslatePage');
+      if (this.detectedUser.length==1){
+        this.storage.set('userName', this.account.userName);
+        let date=new Date()
+        this.storage.set("timeOfLogin",date)
+        this.navCtrl.push("TranslationLanguageMenuPage")
+      }else{
+        this.invalidCredentialError=[1,2]
+      }
     }else{
-      this.invalidCredentialError=[1,2]
+      this.navCtrl.push(MainPage);
     }
   }
 }

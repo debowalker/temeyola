@@ -1,28 +1,47 @@
 <ion-header>
-
   <ion-navbar color="dark">
-    <ion-title>TeMeYoLa Dictionary</ion-title>
+    <ion-buttons start>
+      <button ion-button type="button" (click)="changeLanguage()" top right  icon-only>
+        <ion-icon name="options"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>{{dictionaryLanguageMode}}</ion-title>
+    <ion-buttons end>
+      <button ion-button color="light" icon-only (click)="signOut()">
+         <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 
 </ion-header>
 
 
-<ion-content>
-  <ion-searchbar (ionInput)="searchWordDictionary($event.target.value)" placeholder="{{ 'SEARCH_PLACEHOLDER' | translate }}"></ion-searchbar>
+<ion-content style="background: #eee;">
+  <ion-searchbar (ionInput)="searchWordDictionary($event.target.value)" placeholder="Search..." style="border:2px solid #222;"></ion-searchbar>
   <ion-card *ngFor="let a0 of searched;let ai=index">
   <ion-item>
-    <h2 text-lg-center>{{a0.meaning}}</h2><sup class="text-light">({{a0.word}})</sup>
+    <h2 text-lg-center class="translation" style="color: #365899;cursor: pointer;">{{a0.meaning}} - <span class="text-light">({{a0.word}})</span></h2>
   </ion-item>
   <ion-card-content>
       <p>
-      {{a0.example}}
+      Ex: {{a0.example}}
+    </p>
+    <p>Ex-M.
       {{a0.exampleMeaning}}
     </p>
+    <p>{{a0.dateOfRecord}}</p>
     <ion-row>
-      <ion-col col-4>
-        <button ion-button icon-left clear small>
-          <ion-icon name="thumbs-up"></ion-icon>
-          <div>0</div>
+      <ion-col col-2>
+        <button ion-button icon-left clear small title="down vote">
+          <ion-icon name="arrow-back"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-1>
+        <div>0</div>
+      </ion-col>
+      <ion-col col-2>
+        <button ion-button icon-left clear small title="up vote">
+          <ion-icon name="arrow-forward"></ion-icon>
         </button>
       </ion-col>
       <ion-col col-4>
@@ -31,7 +50,7 @@
           <div>0 </div>
         </button>
       </ion-col>
-      <ion-col col-4>
+      <ion-col col-3>
         <button ion-button icon-left clear small>
           <ion-icon name="create"></ion-icon>
         </button>
@@ -41,6 +60,7 @@
 
 </ion-card>
 <ng-container *ngIf="searched.length==0">
-   <sup ion-text color="primary" class="text-big">Please type the english word in the search input...</sup>
+  <br/>
+   <sup ion-text color="primary" class="text-big ">Please type the english word in the search input...</sup>
 </ng-container>
 </ion-content>

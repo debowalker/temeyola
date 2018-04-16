@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { IonicPage, ModalController, NavController } from 'ionic-angular';
+import { IonicPage, ModalController, NavController,
+         AlertController,LoadingController } from 'ionic-angular';
 
 import {AngularFireLiteAuth, AngularFireLiteDatabase, AngularFireLiteFirestore} from 'angularfire-lite';
 import { WordNetEnglishWordProvider as EnglishWordToTranslate } from '../../providers/providers';
-import {TranslatedEnglishWordProvider} from '../../providers/providers'
+// import {TranslatedEnglishWordProvider} from '../../providers/providers'
+
+import { Storage } from '@ionic/storage';
+
 @IonicPage()
 @Component({
   selector: 'translate-master',
@@ -11,7 +15,8 @@ import {TranslatedEnglishWordProvider} from '../../providers/providers'
 })
 export class TranslatePage implements OnInit {
   ///ngModel
-  translationForm: {word:string, meaning: string, example: string, exampleMeaning: string } = {
+  translationForm: {wordId:number,word:string, meaning: string, example: string, exampleMeaning: string } = {
+    wordId:0,
     word:"abundant",
     meaning: '',
     example: '',
@@ -36,25 +41,47 @@ export class TranslatePage implements OnInit {
     document:string
     translationState:number[]
 
+    //metadata-0
+    user:string=""
+    language:string=""
+    languageId:number
+
   constructor(public db: AngularFireLiteDatabase,
               public auth: AngularFireLiteAuth,
-              public firestore: AngularFireLiteFirestore,public navCtrl: NavController, public modalCtrl: ModalController) {
+              public firestore: AngularFireLiteFirestore,
+              public navCtrl: NavController,
+              public modalCtrl: ModalController,
+              public alertCtrl:AlertController,
+              public loadingCtrl:LoadingController,
+              private storage: Storage) {
     this.title="Translate"
     this.translationState=[]
       }
    ngOnInit() {
+        this.storage.get('userName').then((val) => {
+          this.user=val
+          console.log(this.user)
+        });
 
+        this.storage.get('translationLanguage').then((val) => {
+          this.language=val
+          console.log(this.language)
+        });
+        this.storage.get('translationLanguageId').then((val1) => {
+          this.languageId=val1
+        });
 
         this.firestore.query('englishWords').on().subscribe((data) => {
             this.firestoreQuery = data;
             for (let i of this.firestoreQuery) {
-              let englishWord=new EnglishWordToTranslate(i.word,
+              let englishWord=new EnglishWordToTranslate(i.wordId,
+                                                        i.word,
                                                         i.pos,
                                                         i.description)
               this.englishWord.push(englishWord)
             }
             this.rand=Math.floor(Math.random() * (this.englishWord.length-1 - 0 + 1)) + 0
-            console.log(this.englishWord[this.rand])
+
         });
 
 
@@ -90,13 +117,21 @@ export class TranslatePage implements OnInit {
   saveTranslation(){
     this.translationState=[1]
     this.generateDocumentId()
-    let toSubmit=new TranslatedEnglishWordProvider(this.translationForm.word,this.translationForm.meaning,
-                                      this.translationForm.example,this.translationForm.exampleMeaning,
-                                    this.englishWord,this.rand)
-    this.firestore.write("Translation/"+this.document,toSubmit.toSubmit).subscribe(()=>{
+    let currentWord=this.englishWord[this.rand]
+    let toSubmit={translatonId:this.document,
+                  userName:this.user,
+                  wordId:currentWord.wordId,
+                  meaning:this.translationForm.meaning,
+                  languageId:this.languageId,
+                  example:this.translationForm.example,
+                  exampleMeaning:this.translationForm.exampleMeaning,
+                  dateOfRecord:new Date()
+                }
+    this.firestore.write("Translation/"+this.document,toSubmit).subscribe(()=>{
 
                                           })
     this.translationForm = {
+                      wordId:this.rand,
                       word:"",
                       meaning: '',
                       example: '',
@@ -108,6 +143,75 @@ export class TranslatePage implements OnInit {
   }
 
   ionViewDidLoad() {
+  }
+
+  changeLanguage(){
+    let confirm = this.alertCtrl.create({
+      title: 'Change translation language?',
+      message: 'Are you sure you really want to translate another language?',
+      buttons: [
+        {
+          text: 'NOT REALLY',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'OFCOURSE',
+          handler: () => {
+            this.navCtrl.push('TranslationLanguageMenuPage')
+          }
+        }
+      ]
+    });
+    confirm.present();
+  }
+
+  signOut() {
+    let confirm = this.alertCtrl.create({
+      title: 'Sign Out?',
+      message: 'Are you sure you really want to sign out?',
+      buttons: [
+        {
+          text: 'NOT REALLY',
+          handler: () => {
+            console.log('Disagree clicked');
+          }
+        },
+        {
+          text: 'OFCOURSE',
+          handler: () => {
+            this.storage.get('userName').then((val) => {
+                if (val!=null || val!=undefined){
+                  this.storage.remove('userName');
+                  this.storage.remove('translationLanguageId');
+                  this.storage.remove('translationLanguage');
+                  this.storage.remove('languageFrom');
+                  this.storage.remove('languageTo');
+                  let loader=this.loadingCtrl.create(
+                     {
+                       content:`Signing out of ${val}...`,
+                       duration:1000
+                     }
+                   )
+                   loader.present()
+                  this.navCtrl.push("TemeyolaPage")
+                }else{
+                  let loader=this.loadingCtrl.create(
+                     {
+                       content:"You were not signed in...",
+                       duration:1000
+                     }
+                   )
+                   loader.present()
+                   this.navCtrl.push("TemeyolaPage")
+                }
+              });
+          }
+        }
+      ]
+    });
+    confirm.present();
   }
 
 }

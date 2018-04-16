@@ -16,7 +16,10 @@ import { Api } from '../providers/providers';
 import { MyApp } from './app.component';
 
 import {AngularFireLite} from 'angularfire-lite';
-import { UsersProvider } from '../providers/users/users';
+// import { UsersProvider } from '../providers/users/users';
+import { LanguagesProvider } from '../providers/languages/languages';
+// import { Translation,Language,EnglishWords,Users,Country } from '../providers/model/model';
+// import { FormatLanguageForTranslationLanguageMenu } from '../providers/helper/helper';
 // in Ionic's static asset pipeline.
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -26,7 +29,7 @@ export function createTranslateLoader(http: HttpClient) {
 
 @NgModule({
   declarations: [
-    MyApp
+    MyApp,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,7 @@ export function createTranslateLoader(http: HttpClient) {
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp
+    MyApp,
   ],
   providers: [
     Api,
@@ -60,10 +63,15 @@ export function createTranslateLoader(http: HttpClient) {
     SplashScreen,
     StatusBar,
     AngularFireLite,
-    // { provide: EnglishWordToTranslate, useFactory: provideSettings, deps: [Storage] },
-    // Keep this to enable Ionic's runtime error handling during development
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    UsersProvider
+    LanguagesProvider,
+    // Translation,
+    // Language,
+    // EnglishWords,
+    // Users,
+    // Country,
+    // Country,
+    // FormatLanguageForTranslationLanguageMenu
   ]
 })
 export class AppModule { }

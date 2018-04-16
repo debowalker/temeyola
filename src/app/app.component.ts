@@ -44,7 +44,8 @@ export class MyApp {
     { title: 'Translate', component: 'TranslatePage' },
     { title: 'Menu', component: 'MenuPage' },
     { title: 'Donate', component: 'DonatePage' },
-    { title: 'Dictionary', component: 'DictionaryPage' }
+    { title: 'Dictionary', component: 'DictionaryPage' },
+    {title:"TranslationLanguageMenuPage",component:"TranslationLanguageMenuPage"}
   ]
 
   constructor(private translate: TranslateService, platform: Platform, private config: Config, private statusBar: StatusBar, private splashScreen: SplashScreen) {

@@ -8,10 +8,10 @@
 
 
 <ion-content>
-  <!-- <ng-container *ngIf="invalidCredentialError.length>0">
+  <ng-container *ngIf="invalidCredentialError.length>0">
     <br/>
      <sup ion-text color="danger" class="text-big">Username and password don't match</sup>
-  </ng-container> -->
+  </ng-container>
   <form (submit)="doLogin()">
 
     <ion-list>
@@ -22,18 +22,18 @@
       </ion-item> -->
 
       <ion-item>
-        <ion-label floating>{{ 'USERNAME' | translate }}</ion-label>
+        <ion-label stacked>User name</ion-label>
         <ion-input type="text" [(ngModel)]="account.userName" name="username"></ion-input>
       </ion-item>
 
 
       <ion-item>
-        <ion-label fixed>{{ 'PASSWORD' | translate }}</ion-label>
+        <ion-label stacked>Password</ion-label>
         <ion-input type="password" [(ngModel)]="account.password" name="password"></ion-input>
       </ion-item>
 
       <div padding>
-        <button ion-button color="dark" block>{{ 'LOGIN_BUTTON' | translate }}</button>
+        <button ion-button color="dark" block>LOGIN</button>
       </div>
 
     </ion-list>

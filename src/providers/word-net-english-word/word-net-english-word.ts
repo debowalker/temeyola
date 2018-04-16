@@ -9,12 +9,13 @@ import { Injectable } from '@angular/core';
 */
 @Injectable()
 export class WordNetEnglishWordProvider {
-
+  public wordId:number
   public word:string
   public pos: string
   public description:string
 
-  constructor(word:string,pos:string,description:string) {
+  constructor(wordId:number,word:string,pos:string,description:string) {
+    this.wordId=wordId
     this.word=word
     this.pos=pos
     this.description=description

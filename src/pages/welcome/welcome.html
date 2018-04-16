@@ -6,12 +6,11 @@
     </div>
   </div>
   <div padding class="p-5">
-    <button ion-button block (click)="login()" color="dark" class="login">
-      Log in
+    <button ion-button block (click)="login()" color="dark" class="login" outline round>
+      <ion-icon name="log-in"></ion-icon>
     </button>
-    <button ion-button block (click)="signup()" class="signup" color="dark">
-      Register
+    <button ion-button block (click)="signup()" class="signup" color="dark" outline round>
+      <ion-icon name="person-add"></ion-icon>
     </button>
-    <p [innerHTML]="welcomeMessage"></p>
   </div>
 </ion-content>

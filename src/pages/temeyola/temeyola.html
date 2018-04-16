@@ -11,7 +11,9 @@
 <ion-content no-bounce>
   <ion-slides pager="true" dir="{{dir}}" (ionSlideWillChange)="onSlideChangeStart($event)">
     <ion-slide>
-      <img src="assets/img/temeyola.png" class="slide-image" />
+      <ion-thumbnail item-start>
+        <img src="assets/img/temeyola.png" class="slide-image image circle-pic" />
+      </ion-thumbnail>
       <h2 class="slide-title">Ready?</h2>
       <button ion-button icon-end large clear (click)="startApp()">
         <ion-icon name="arrow-forward" color="dark"></ion-icon>
